@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Photo;
 use App\Models\Comment;
+use App\Models\Tag;
 
 class Post extends Model
 {
@@ -14,19 +15,28 @@ class Post extends Model
         'description',
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function usersWhoFavorited() {
+    public function usersWhoFavorited()
+    {
         return $this->belongsToMany(User::class, 'favorites', 'post_id', 'user_id');
     }
 
-    public function photos() {
+    public function photos()
+    {
         return $this->hasMany(Photo::class, 'post_id', 'id');
     }
 
-    public function comments() {
-        return $this->hasMany(Comment::class,'post_id', 'id');
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'post_id', 'id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tags', 'post_id', 'tag_id');
     }
 }

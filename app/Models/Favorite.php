@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model
 {
-    // Vacia de momento.
+    // Tabla pivote sin mucho valor considerar borrarla, pero se deja por si acaso.
 }

@@ -32,15 +32,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class, 'user_id', 'id');
     }
 
-    public function favoritePosts() {
+    public function favoritePosts()
+    {
         return $this->belongsToMany(Post::class, 'favorites', 'user_id', 'post_id');
     }
 
-    public function comments() {
+    public function comments()
+    {
         return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 }
