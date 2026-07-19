@@ -17,6 +17,10 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function usersWhoFavorited() {
+        return $this->belongsToMany(User::class, 'favorites', 'post_id', 'user_id');
+    }
+
     public function photos() {
         return $this->hasMany(Photo::class, 'post_id', 'id');
     }
