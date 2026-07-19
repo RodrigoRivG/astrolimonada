@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Post;
+use App\Models\Comment;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -37,5 +38,9 @@ class User extends Authenticatable
 
     public function favoritePosts() {
         return $this->belongsToMany(Post::class, 'favorites', 'user_id', 'post_id');
+    }
+
+    public function comments() {
+        return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 }
