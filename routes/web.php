@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PhotoController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -15,6 +18,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Rutas para el CRUD de posts
+
+// Rutas Públicas
+Route::resource('posts', PostController::class)->only(['index', 'show']);
+
+// Rutas Privadas (requieren autenticación)
+Route::middleware('auth')->group(function () {
+    Route::resource('posts', PostController::class)->except(['index', 'show']);
+});
+
+// Rutas para el CRUD de fotos
+
+// Rutas Públicas
+Route::resource('photos', PhotoController::class)->only(['index', 'show']);
+
+// Rutas Privadas (requieren autenticación)
+Route::middleware('auth')->group(function () {
+    Route::resource('photos', PhotoController::class)->except(['index', 'show']);
 });
 
 require __DIR__.'/auth.php';
