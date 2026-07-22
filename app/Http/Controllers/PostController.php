@@ -25,6 +25,7 @@ class PostController extends Controller
     public function index()
     {
         // Listar posts de un usuario específico, se retorna la plantilla blade de resources/views/posts/index.blade.php
+        return view('posts.index');
     }
 
     /**
@@ -33,6 +34,7 @@ class PostController extends Controller
     public function create()
     {
         // Se retorna la plantilla blade de resources/views/posts/create.blade.php
+        return view('posts.create');
     }
 
     /**
@@ -52,6 +54,7 @@ class PostController extends Controller
     public function show(string $id)
     {
         // Mostrar un post específico, se retorna la plantilla blade de resources/views/posts/show.blade.php
+        return view('posts.show');
     }
 
     /**

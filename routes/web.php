@@ -20,24 +20,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Rutas para el CRUD de posts
-
-// Rutas Públicas
-Route::resource('posts', PostController::class)->only(['index', 'show']);
+// -------------- Rutas para el CRUD de posts ----------------------
 
 // Rutas Privadas (requieren autenticación)
 Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class)->except(['index', 'show']);
 });
 
-// Rutas para el CRUD de fotos
-
 // Rutas Públicas
-Route::resource('photos', PhotoController::class)->only(['index', 'show']);
+Route::resource('posts', PostController::class)->only(['index', 'show']);
+
+// ------------- Rutas para el CRUD de fotos ------------------------
 
 // Rutas Privadas (requieren autenticación)
 Route::middleware('auth')->group(function () {
     Route::resource('photos', PhotoController::class)->except(['index', 'show']);
 });
+
+// Rutas Públicas
+Route::resource('photos', PhotoController::class)->only(['index', 'show']);
 
 require __DIR__.'/auth.php';
