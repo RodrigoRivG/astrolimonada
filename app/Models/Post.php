@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
 use App\Models\User;
 use App\Models\Photo;
 use App\Models\Comment;
@@ -27,7 +28,7 @@ class Post extends Model
 
     public function photos()
     {
-        return $this->hasMany(Photo::class, 'post_id', 'id');
+        return $this->hasMany(Photo::class, 'post_id', 'id')->orderBy('order');
     }
 
     public function comments()
@@ -38,5 +39,28 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'post_tags', 'post_id', 'tag_id');
+    }
+
+
+    // Scope para filtrar posts por título, descripción o nombre de etiqueta
+    public function scopeSearch($query, $searchTerm)
+    {
+        $searchTerm = trim($searchTerm);
+
+        if ($searchTerm === '') {
+            return $query;
+        }
+
+        if (str_starts_with($searchTerm, '#')) {
+            $tagName = ltrim($searchTerm, '#');
+            return $query->whereHas('tags', function ($q) use ($tagName) {
+                $q->where('name', 'like', "%{$tagName}%");
+            });
+        } else {
+            return $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                  ->orWhere('description', 'like', "%{$searchTerm}%");
+            });
+        }
     }
 }

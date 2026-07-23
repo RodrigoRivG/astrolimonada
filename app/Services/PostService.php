@@ -28,7 +28,7 @@ class PostService
 
     public function update(Post $post, array $data): Post
     {
-        $post->update($data); //Eloquent se encarga de actualizar solo los campos que se pasen en el array, por lo que si no se pasan 'title' o 'description', no se modificarán.
+        $post->update($data); 
 
         return $post;
     }

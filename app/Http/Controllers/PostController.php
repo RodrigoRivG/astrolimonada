@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Services\PostService;
@@ -22,10 +23,19 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Listar posts de un usuario específico, se retorna la plantilla blade de resources/views/posts/index.blade.php
-        return view('posts.index');
+        $searchTerm = $request->query('search', '');
+        $posts = Post::with(['user', 'photos', 'tags'])
+            ->when($searchTerm, fn($query) => $query->search($searchTerm))
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('posts.index', [
+            'posts' => $posts,
+            'searchTerm' => $searchTerm,
+        ]);
     }
 
     /**
@@ -33,7 +43,6 @@ class PostController extends Controller
      */
     public function create()
     {
-        // Se retorna la plantilla blade de resources/views/posts/create.blade.php
         return view('posts.create');
     }
 
@@ -43,7 +52,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $user = $request->user();
-        $post = $this->postService->store($user, $request->validated());
+        $this->postService->store($user, $request->validated());
 
         return redirect()->back()->with('success', 'Post creado correctamente');
     }
@@ -53,7 +62,6 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        // Mostrar un post específico, se retorna la plantilla blade de resources/views/posts/show.blade.php
         return view('posts.show');
     }
 
