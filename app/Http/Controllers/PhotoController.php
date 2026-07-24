@@ -28,10 +28,10 @@ class PhotoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     // No lo vamos ocupar.
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -62,7 +62,7 @@ class PhotoController extends Controller
      */
     public function update(UpdatePhotoRequest $request, Photo $photo)
     {
-        $photo = $this->photoService->update($photo, $request->validated());
+        $this->photoService->update($photo, $request->validated());
 
         return redirect()->back()->with('success', 'Foto/detalle actualizada correctamente');
     }
@@ -74,6 +74,6 @@ class PhotoController extends Controller
     {
         $this->photoService->destroy($photo);
 
-        return redirect()->back()->with('success', 'Foto/detalle eliminada correctamente');
+        return redirect()->back()->with('success', 'Foto eliminada correctamente');
     }
 }

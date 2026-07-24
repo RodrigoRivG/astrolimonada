@@ -60,15 +60,17 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        return view('posts.show');
+        return view('posts.show', [
+            'post' => $post
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
         // Mostrar el formulario de edición de un post específico, se retorna la plantilla blade de resources/views/posts/edit.blade.php
     }
@@ -78,7 +80,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $post = $this->postService->update($post, $request->validated());
+        $this->postService->update($post, $request->validated());
 
         return redirect()->back()->with('success','Actualizado de manera correcta');
     }

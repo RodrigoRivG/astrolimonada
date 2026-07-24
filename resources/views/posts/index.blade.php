@@ -5,8 +5,8 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="pt-8 pb-12">
+        <div class="max-w-xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <!-- Buscador -->
              <div class="bg-white shadow-sm sm:rounded-lg p-4">
                 <form action="{{ route('posts.index') }}" method="GET" class="flex gap-2">
@@ -28,7 +28,18 @@
                     @endif
                 </form>
              </div>
-             <!-- Próximamente: Listado de Posts -->
+            <!-- Listado de Posts -->
+            <div>
+                @forelse ($posts as $post)
+                    <x-post-card :post="$post" />
+                @empty
+                    No se encontraron publicaciones.
+                @endforelse
+            </div>
+            <!-- Links de Paginación -->
+            <div class="mt-6">
+                {{ $posts->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>
